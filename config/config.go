@@ -33,7 +33,7 @@ func (p *Package) Run() error {
 		return err
 	}
 
-	args := []string{"run", "-it"}
+	args := []string{"run", "-it", "--rm"}
 
 	if p.PreserveUser {
 		uid, gid := p.GetIDs()
