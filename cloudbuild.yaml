@@ -1,0 +1,10 @@
+steps:
+- name: 'gcr.io/cloud-builders/go'
+  args: ['get', './...']
+  env: ['PROJECT_ROOT=github.com/kubaj/doper']
+- name: 'gcr.io/cloud-builders/go'
+  args: ['install', '.']
+  env: ['PROJECT_ROOT=github.com/kubaj/doper']
+- name: 'gcr.io/cloud-builders/go'
+  args: ['test', './...']
+  env: ['PROJECT_ROOT=github.com/kubaj/doper']
