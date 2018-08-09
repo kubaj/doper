@@ -7,7 +7,6 @@ import (
 	"os/exec"
 	"os/signal"
 	"strconv"
-	"strings"
 	"syscall"
 
 	"github.com/kr/pty"
@@ -29,10 +28,6 @@ type Package struct {
 }
 
 func (p *Package) Run() error {
-	if err := p.ExpandVolumes(); err != nil {
-		return err
-	}
-
 	args := []string{"run", "-it", "--rm"}
 
 	if p.PreserveUser {
@@ -101,18 +96,4 @@ func (p *Package) GetIDs() (string, string) {
 	uid := strconv.Itoa(os.Getuid())
 	gid := strconv.Itoa(os.Getgid())
 	return uid, gid
-}
-
-func (p *Package) ExpandVolumes() error {
-
-	dir, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
-	for i := range p.Volumes {
-		p.Volumes[i] = strings.Replace(p.Volumes[i], "$(pwd)", dir, -1)
-	}
-
-	return nil
 }

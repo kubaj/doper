@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/kubaj/doper/config"
 
@@ -38,8 +39,17 @@ var runCmd = &cobra.Command{
 			fmt.Errorf("package %s not installed", args[0])
 			os.Exit(1)
 		}
+
+		dir, err := os.Getwd()
+		if err != nil {
+			fmt.Errorf("cannot get working directory")
+			os.Exit(1)
+		}
+		s := strings.Replace(string(b), "$(pwd)", dir, -1)
+		s = os.ExpandEnv(s)
+
 		p := config.Package{}
-		err = yaml.Unmarshal(b, &p)
+		err = yaml.Unmarshal([]byte(s), &p)
 		if err != nil {
 			fmt.Errorf("failed to read config")
 			os.Exit(1)
