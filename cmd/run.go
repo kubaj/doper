@@ -56,7 +56,6 @@ var runCmd = &cobra.Command{
 		}
 
 		p.Run()
-
 	},
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
